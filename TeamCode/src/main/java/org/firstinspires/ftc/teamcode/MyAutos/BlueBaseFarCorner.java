@@ -18,10 +18,10 @@ public class BlueBaseFarCorner extends LinearOpMode {
 
 
     // PIDF настройки
-    double kP = 33.0, kI = 0, kD = 2.0, kF = 14.0;
+    double kP = 35.0, kI = 0, kD = 2.0, kF = 15.0;
 
     // Целевая скорость
-    double targetRPM = 2850;
+    double targetRPM = 2550;
     double holdRPM = 1800;
     double targetTPS, holdTPS;
 
@@ -52,13 +52,13 @@ public class BlueBaseFarCorner extends LinearOpMode {
 
         boolean isBlue = true; // если нужно для смены стороны
         double side = isBlue ? 1 : -1;
-        double shootX = -27.5;
-        double shootY = -27.5;
-        double shootH = -133;
+        double shootX = -30;
+        double shootY = -30;
+        double shootH = -135;
 
         // === 1. Первый выезд к обелиску ===
         Action toObelisk1 = drive.actionBuilder(startPose)
-                .strafeToLinearHeading(new Vector2d(shootX, shootY * side), Math.toRadians(shootH) * side)
+                .strafeToLinearHeading(new Vector2d(shootX, shootY+4 * side), Math.toRadians(shootH) * side)
                 .build();
         Actions.runBlocking(toObelisk1);
         fireSequencePID(shooter, intake);
@@ -67,15 +67,15 @@ public class BlueBaseFarCorner extends LinearOpMode {
         // === 2. Первый забег за шарами ===
         intake.setPower(1.0);
         Action toBalls1 = drive.actionBuilder(new Pose2d(shootX, shootY * side, Math.toRadians(shootH) * side))
-                .strafeToLinearHeading(new Vector2d(-12, -30 * side), Math.toRadians(-90) * side)
-                .strafeToLinearHeading(new Vector2d(-12, -52 * side), Math.toRadians(-90) * side)
+                .strafeToLinearHeading(new Vector2d(-11, -24 * side), Math.toRadians(-90) * side)
+                .strafeToLinearHeading(new Vector2d(-11, -52 * side), Math.toRadians(-90) * side)
                 .build();
         Actions.runBlocking(toBalls1);
         intake.setPower(0.0);
         shooterMotor.setVelocity(targetTPS);
 
         // === 3. Второй выезд к обелиску ===
-        Action toObelisk2 = drive.actionBuilder(new Pose2d(-12, -52 * side, Math.toRadians(-90) * side))
+        Action toObelisk2 = drive.actionBuilder(new Pose2d(-11, -52 * side, Math.toRadians(-90) * side))
                 .strafeToLinearHeading(new Vector2d(shootX, shootY * side), Math.toRadians(shootH) * side)
                 .build();
         Actions.runBlocking(toObelisk2);
@@ -85,16 +85,16 @@ public class BlueBaseFarCorner extends LinearOpMode {
         // === 4. Второй забег ===
         intake.setPower(1.0);
         Action toBalls2 = drive.actionBuilder(new Pose2d(shootX, shootY * side, Math.toRadians(shootH) * side))
-                .strafeToLinearHeading(new Vector2d(11.6, -30 * side), Math.toRadians(-90) * side)
-                .strafeToLinearHeading(new Vector2d(11.6, -60 * side), Math.toRadians(-90) * side)
-                .strafeToConstantHeading(new Vector2d(11.6, -40 * side))
+                .strafeToLinearHeading(new Vector2d(12.5, -24 * side), Math.toRadians(-90) * side)
+                .strafeToLinearHeading(new Vector2d(12.5, -50 * side), Math.toRadians(-90) * side)
+                .strafeToConstantHeading(new Vector2d(12.5, -40 * side))
                 .build();
         Actions.runBlocking(toBalls2);
         intake.setPower(0.0);
         shooterMotor.setVelocity(targetTPS);
 
         // === 5. Третий выезд к обелиску ===
-        Action toObelisk3 = drive.actionBuilder(new Pose2d(11.6, -40 * side, Math.toRadians(-90) * side))
+        Action toObelisk3 = drive.actionBuilder(new Pose2d(12.5, -40 * side, Math.toRadians(-90) * side))
                 .strafeToLinearHeading(new Vector2d(shootX, shootY * side), Math.toRadians(shootH) * side)
                 .build();
         Actions.runBlocking(toObelisk3);
@@ -104,21 +104,21 @@ public class BlueBaseFarCorner extends LinearOpMode {
         // === 6. Третий забег ===
         intake.setPower(1.0);
         Action toBalls3 = drive.actionBuilder(new Pose2d(shootX, shootY * side, Math.toRadians(shootH) * side))
-                .strafeToLinearHeading(new Vector2d(34.5, -30 * side), Math.toRadians(-90) * side)
-                .strafeToLinearHeading(new Vector2d(34.5, -60 * side), Math.toRadians(-90) * side)
+                .strafeToLinearHeading(new Vector2d(35, -24 * side), Math.toRadians(-90) * side)
+                .strafeToLinearHeading(new Vector2d(35, -50 * side), Math.toRadians(-90) * side)
                 .build();
         Actions.runBlocking(toBalls3);
         intake.setPower(0.0);
         shooterMotor.setVelocity(targetTPS);
 
         // === 7. Четвёртый выезд ===
-        Action toObelisk4 = drive.actionBuilder(new Pose2d(34.5, -60 * side, Math.toRadians(-90) * side))
+        Action toObelisk4 = drive.actionBuilder(new Pose2d(35, -50 * side, Math.toRadians(-90) * side))
                 .strafeToLinearHeading(new Vector2d(shootX, shootY * side), Math.toRadians(shootH) * side)
                 .build();
         Actions.runBlocking(toObelisk4);
         fireSequencePID(shooter, intake);
         Action OutOfZone = drive.actionBuilder(new Pose2d(shootX, shootY * side, Math.toRadians(shootH) * side))
-                .strafeToLinearHeading(new Vector2d(shootX+15, shootY+5 * side), Math.toRadians(shootH) * side)
+                .strafeToLinearHeading(new Vector2d(shootX+30, shootY * side), Math.toRadians(shootH) * side)
                 .build();
         Actions.runBlocking(OutOfZone);
     }
@@ -127,16 +127,18 @@ public class BlueBaseFarCorner extends LinearOpMode {
     private void fireSequencePID(Shooter shooter, Intake intake) throws InterruptedException {
         // 1. Открываем gate
         shooter.openGate();
-        Thread.sleep(200); // ждём 0.2 секунды
+        Thread.sleep(500); // ждём 0.2 секунды
 
         // 2. Включаем Intake на 0.5 секунды
         intake.setPower(1.0);
         Thread.sleep(1000);
         intake.setPower(0.0);
-
-        // 3. Закрываем gate
         shooter.closeGate();
-        Thread.sleep(500);
+        Thread.sleep(100);
+        shooter.openGate();
+        Thread.sleep(100);
+        shooter.closeGate();
+
     }
 
 

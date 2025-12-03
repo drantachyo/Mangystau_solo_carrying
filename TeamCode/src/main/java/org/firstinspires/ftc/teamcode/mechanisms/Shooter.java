@@ -26,8 +26,8 @@ public class Shooter {
     private static final double MAX_RPM = 6000.0;
 
     // Servo позиции
-    private static final double OPEN_POSITION = 0.65;
-    private static final double CLOSE_POSITION = 1.0;
+    private static final double OPEN_POSITION = 0.0;
+    private static final double CLOSE_POSITION = 0.25;
 
     // RPM recovery tolerance
     private static final double RPM_TOLERANCE = 50.0;

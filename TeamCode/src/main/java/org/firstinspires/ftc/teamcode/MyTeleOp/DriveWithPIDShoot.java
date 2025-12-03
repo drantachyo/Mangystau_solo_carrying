@@ -38,8 +38,8 @@ public class DriveWithPIDShoot extends OpMode {
     boolean lastLB = false, lastRB = false;
     boolean shooterOn = false;
 
-    final double openPosition = 0.65;
-    final double closePosition = 1.0;
+    final double openPosition = 0.0;
+    final double closePosition = 0.25;
 
     // --- Brake ---
     DcMotor.ZeroPowerBehavior prevFLZeroBehavior, prevFRZeroBehavior, prevBLZeroBehavior, prevBRZeroBehavior;
@@ -172,7 +172,7 @@ public class DriveWithPIDShoot extends OpMode {
             long elapsed = System.currentTimeMillis() - bSequenceStart;
             switch(bState){
                 case OPEN_SERVO:
-                    if(elapsed >= 200){ // 0.2 секунды
+                    if(elapsed >= 500){ // 0.2 секунды
                         Intake.setPower(1.0);
                         bSequenceStart = System.currentTimeMillis();
                         bState = BState.INTAKE;
